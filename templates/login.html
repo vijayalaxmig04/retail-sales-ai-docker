@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Retail Sales Dashboard{% endblock %}
+
+{% block content %}
+<section class="app-flex-center app-min-vh-100" aria-labelledby="login-heading">
+  <article class="app-w-100" style="max-width: 420px;">
+    <div class="app-card">
+      <div class="app-card-body">
+        <h1 id="login-heading" class="app-mb-4 app-text-center" style="font-size: 1.5rem;">Login</h1>
+        
+        <form method="post" action="{{ url_for('login') }}" novalidate>
+          <div class="app-form-group">
+            <label for="username">Username</label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              placeholder="Enter username"
+              required
+              autocomplete="username">
+          </div>
+          
+          <div class="app-form-group">
+            <label for="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Enter password"
+              required
+              autocomplete="current-password">
+          </div>
+          
+          <button type="submit" class="app-btn app-btn-primary app-btn-block app-mb-3">Sign In</button>
+        </form>
+
+        <!-- <section class="app-text-center" style="font-size: 0.9rem; color: var(--text-muted);">
+          <p>Demo credentials:<br/><strong>admin</strong> / <strong>admin123</strong></p>
+        </section> -->
+      </div>
+    </div>
+  </article>
+</section>
+{% endblock %}

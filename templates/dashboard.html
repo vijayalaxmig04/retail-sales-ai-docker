@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Retail Sales{% endblock %}
+
+{% block content %}
+<section aria-labelledby="dashboard-heading">
+  <header>
+    <h1 id="dashboard-heading" class="app-mb-1">Dashboard</h1>
+    <p class="text-muted">Real-time sales analytics and insights</p>
+  </header>
+
+  <section class="app-mb-4" aria-labelledby="metrics-heading">
+    <h2 id="metrics-heading" style="font-size: 1.1rem; margin-bottom: 1.5rem;">Key Metrics</h2>
+    <div class="app-grid cols-4">
+      <article class="app-card app-metric-card">
+        <div class="app-card-body">
+          <h3 class="app-metric-label">Total Records</h3>
+          <p class="app-metric-value">{{ summary.total_records|default(0) }}</p>
+        </div>
+      </article>
+
+      <article class="app-card app-metric-card success">
+        <div class="app-card-body">
+          <h3 class="app-metric-label">Total Sales</h3>
+          <p class="app-metric-value">{{ summary.total_sales|default(0)|round(2) }}</p>
+        </div>
+      </article>
+
+      <article class="app-card app-metric-card warning">
+        <div class="app-card-body">
+          <h3 class="app-metric-label">Average Sales</h3>
+          <p class="app-metric-value">{{ summary.avg_sales|default(0)|round(2) }}</p>
+        </div>
+      </article>
+
+      <article class="app-card app-metric-card danger">
+        <div class="app-card-body">
+          <h3 class="app-metric-label">Total Customers</h3>
+          <p class="app-metric-value">{{ summary.total_customers|default(0) }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="monthly-heading">
+    <article class="app-card">
+      <header class="app-card-header app-flex-between app-flex-wrap">
+        <h2 id="monthly-heading" style="margin: 0; font-size: 1.1rem;">Monthly Sales</h2>
+        <button 
+          class="app-btn app-btn-outline" 
+          onclick="openModal('monthlyHelpModal')"
+          aria-label="Get more information about monthly sales">
+          Help
+        </button>
+      </header>
+      <div class="app-card-body">
+        {% if monthly_stats and monthly_stats|length > 0 %}
+          <div class="app-table-responsive">
+            <table class="app-table">
+              <thead>
+                <tr>
+                  <th scope="col">Month</th>
+                  <th scope="col">Sales</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in monthly_stats %}
+                  <tr>
+                    <td>{{ row.Date }}</td>
+                    <td style="font-weight: 600;">{{ row.Sales | round(2) }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted" style="text-align: center; padding: 2rem 0;">No data available.</p>
+        {% endif %}
+      </div>
+    </article>
+  </section>
+</section>
+
+<!-- Modal -->
+<div id="monthlyHelpModal" class="app-modal" aria-labelledby="helpModalTitle" role="dialog" aria-hidden="true">
+  <div class="app-modal-content">
+    <div class="app-modal-header">
+      <h2 id="helpModalTitle" style="margin: 0; font-size: 1.1rem;">Monthly Sales Info</h2>
+      <button type="button" class="app-modal-close" aria-label="Close" onclick="closeModal('monthlyHelpModal')">&times;</button>
+    </div>
+    <div class="app-modal-body">
+      <p>This table shows the monthly aggregated sales values from your dataset. Use the Predict page to estimate future sales based on specific input parameters.</p>
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="app-btn app-btn-secondary" onclick="closeModal('monthlyHelpModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .app-text-center { text-align: center; }
+</style>
+{% endblock %}

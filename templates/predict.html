@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Predict Sales{% endblock %}
+
+{% block content %}
+<section aria-labelledby="predict-heading">
+  <header class="app-mb-4">
+    <h1 id="predict-heading">Sales Predictor</h1>
+    <p class="text-muted">Enter parameters to get sales forecast</p>
+  </header>
+
+  <article class="app-card">
+    <div class="app-card-body">
+      <form method="post" action="{{ url_for('predict_page') }}" novalidate>
+        <div class="app-form-grid">
+          
+          <div class="app-form-group">
+            <label for="store">Store ID</label>
+            <input 
+              type="number" 
+              id="store"
+              name="store" 
+              value="1" 
+              min="1" 
+              required
+              aria-describedby="store-help">
+            <small id="store-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Store number</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="product">Product</label>
+            <select id="product" name="product" required aria-describedby="product-help">
+              <option value="" disabled selected>Select product</option>
+              <option value="A">Product A</option>
+              <option value="B">Product B</option>
+            </select>
+            <small id="product-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Product type</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="customers">Customers</label>
+            <input 
+              type="number" 
+              id="customers"
+              name="customers" 
+              value="200" 
+              min="1" 
+              required
+              aria-describedby="customers-help">
+            <small id="customers-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Footfall count</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="promo">Promotion</label>
+            <select id="promo" name="promo" aria-describedby="promo-help">
+              <option value="0">No Promo</option>
+              <option value="1">With Promo</option>
+            </select>
+            <small id="promo-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Promotion active</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="holiday">Holiday</label>
+            <select id="holiday" name="holiday" aria-describedby="holiday-help">
+              <option value="0" selected>Regular Day</option>
+              <option value="1">Holiday</option>
+            </select>
+            <small id="holiday-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Is holiday</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="day">Day</label>
+            <input 
+              type="number" 
+              id="day"
+              name="day" 
+              value="1" 
+              min="1" 
+              max="31" 
+              required
+              aria-describedby="day-help">
+            <small id="day-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">1-31</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="month">Month</label>
+            <input 
+              type="number" 
+              id="month"
+              name="month" 
+              value="1" 
+              min="1" 
+              max="12" 
+              required
+              aria-describedby="month-help">
+            <small id="month-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">1-12</small>
+          </div>
+
+          <div class="app-form-group">
+            <label for="year">Year</label>
+            <input 
+              type="number" 
+              id="year"
+              name="year" 
+              value="2023" 
+              min="2000" 
+              max="2100" 
+              required
+              aria-describedby="year-help">
+            <small id="year-help" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">2000-2100</small>
+          </div>
+        </div>
+
+        <button type="submit" class="app-btn app-btn-success app-w-100" style="min-height: 48px; font-size: 1rem; margin-top: 1rem;">
+          🔮 Predict Sales
+        </button>
+      </form>
+
+      {% if prediction is not none %}
+        <aside class="app-alert app-alert-info app-mt-4" role="status" aria-live="polite">
+          <strong>Forecast Result:</strong><br/>
+          <span style="font-size: 1.5rem; font-weight: bold;">₹{{ prediction | round(2) }}</span>
+        </aside>
+      {% endif %}
+    </div>
+  </article>
+</section>
+{% endblock %}

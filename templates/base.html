@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Retail Sales Dashboard{% endblock %}</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  </head>
+
+  <body>
+    <header class="app-header">
+      <nav class="app-navbar" role="navigation" aria-label="Main">
+        <div class="app-navbar-container">
+          <a class="app-brand" href="{% if session.get('logged_in') %}{{ url_for('dashboard') }}{% else %}{{ url_for('login') }}{% endif %}">
+            <span aria-hidden="true">📊</span> Retail ML
+          </a>
+          <button class="app-nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <nav class="app-nav-menu" id="nav-menu" aria-label="Navigation options">
+            {% if session.get('logged_in') %}
+              <a href="{{ url_for('dashboard') }}" class="app-nav-link">Dashboard</a>
+              <a href="{{ url_for('predict_page') }}" class="app-nav-link">Predict</a>
+              <a href="{{ url_for('logout') }}" class="app-nav-link">Logout</a>
+            {% else %}
+              <a href="{{ url_for('login') }}" class="app-nav-link">Login</a>
+            {% endif %}
+          </nav>
+        </div>
+      </nav>
+    </header>
+
+    <main class="app-main">
+      <div class="app-container">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <aside class="app-toast-container" aria-label="Notifications">
+      <div id="toast-container" role="region" aria-live="polite" aria-atomic="true"></div>
+    </aside>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    {% if get_flashed_messages() %}
+      <script>
+        const flashMessages = {{ get_flashed_messages(with_categories=true)|tojson }};
+        flashMessages.forEach(function(item){
+          const [category, text] = item;
+          createToast(category, text);
+        });
+      </script>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Error {{ code }}{% endblock %}
+
+{% block content %}
+<section class="app-flex-center app-min-vh-100" aria-labelledby="error-heading">
+  <article class="app-text-center">
+    <h1 id="error-heading" style="font-size: 3rem; font-weight: 800; color: var(--color-danger); margin-bottom: 1rem;">{{ code }}</h1>
+    <p class="lead text-muted app-mb-4">{{ message }}</p>
+    <nav aria-label="Error recovery">
+      <a href="{% if session.get('logged_in') %}{{ url_for('dashboard') }}{% else %}{{ url_for('login') }}{% endif %}" class="app-btn app-btn-primary" style="font-size: 1rem;">
+        ← Back
+      </a>
+    </nav>
+  </article>
+</section>
+{% endblock %}
